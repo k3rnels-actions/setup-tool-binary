@@ -1,0 +1,49 @@
+{
+  "extends": [
+    "config:base",
+    ":prHourlyLimitNone",
+    ":prConcurrentLimit20",
+    ":timezone(Etc/UTC)"
+  ],
+  "labels": ["dependencies"],
+  "npm": {
+    "stabilityDays": 7
+  },
+  "rangeStrategy": "pin",
+  "packageRules": [
+    {
+      "description": "Group and label GitHub Action PRs",
+      "matchManagers": ["github-actions"],
+      "addLabels": ["github_actions"],
+      "groupName": "ci-dependencies"
+    },
+    {
+      "description": "Group, label and schedule weekly NPM PRs",
+      "extends": ["schedule:weekly"],
+      "matchManagers": ["npm"],
+      "addLabels": ["npm"]
+    },
+    {
+      "description": "Group and schedule monthly NPM dev-dependency PRs",
+      "extends": ["schedule:monthly"],
+      "matchDepTypes": [
+        "devDependencies",
+        "build-dependencies"
+      ],
+      "groupName": "dev-dependencies"
+    },
+    {
+      "description": "Group regular NPM dependency PRs",
+      "matchDepTypes": ["dependencies"],
+      "groupName": "dependencies"
+    },
+    {
+      "description": "Disable major bump PRs for the 'node' dependencies",
+      "matchPackageNames": [
+        "node",
+        "@types/node"
+      ],
+      "major": false
+    }
+  ]
+}
