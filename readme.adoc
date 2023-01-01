@@ -1,0 +1,114 @@
+[[setup-tool-binary]]
+= setup-tool-binary
+:toc: macro
+:toc-title:
+
+image:https://github.com/k3rnels-actions/setup-tool-binary/actions/workflows/test.yml/badge.svg[Build and Test,link="https://github.com/k3rnels-actions/setup-tool-binary/actions/workflows/test.yml"]
+image:https://img.shields.io/codefactor/grade/github/k3rnels-actions/setup-tool-binary.svg[CodeFactor, link="https://www.codefactor.io/repository/github/k3rnels-actions/setup-tool-binary"]
+image:https://img.shields.io/maintenance/yes/2030.svg[Maintenance status, link="https://github.com/k3rnels-actions/setup-tool-binary"]
+image:https://img.shields.io/github/license/k3rnels-actions/setup-tool-binary.svg[License, link="https://github.com/k3rnels-actions/setup-tool-binary/blob/main/LICENSE"]
+image:https://img.shields.io/github/v/release/k3rnels-actions/setup-tool-binary.svg[GitHub release (latest by date), link="https://github.com/k3rnels-actions/setup-tool-binary/releases"]
+
+[#introduction]
+== Introduction
+
+This is a very basic GitHub Action to install an arbitrary tool from a templated url.
+It utilizes the tool-cache to optimize install times and supports a very basic token replace templating mechanism for the url you want to download your tool from.
+
+[NOTE]
+====
+This Action took inspiration of several other tool setup Actions, however none of them seemed to be doing what I needed, so this exists now.
+====
+
+[#action-io]
+== Action I/O
+
+This action does currently not utilize nor support using any form of authorization (i.e. the GitHub Token).
+If it is a requested feature it may get added.
+
+=== Action Inputs
+
+[cols="1,^1,^1,4"]
+|===
+|Input |Required |TemplateLiteral |Description
+
+| `toolName`
+| `true`
+| `toolName`
+| The name of the tool you want to install via this action.
+It also populates the `toolName` template literal you may use in the `urlTemplate` and `smokeTestTemplate` that gets expanded to the value set here.
+
+| `toolRepository`
+| `_conditional_`
+| `toolRepository`
+| Conditionally required if you to use the `_toolRepository_` TemplateLiteral within the urlTemplate.
+Useful when installing releases from GitHub as tools (also check link:#usage[Usage] for an example).
+
+| `toolVersion`
+| `true`
+| `toolVersion`
+| The version of the tool you want to install.
+It also populates the `toolVersion` template literal you may use in the `urlTemplate` that gets expanded to the value set here.
+
+| `urlTemplate`
+| `true`
+| `n/a`
+| The URL template to download your tool of choice from.
+By default, this is set to a reasonable assumed url pattern for GitHub releases, yet you can overwrite it with your own template. +
+Defaults to: `https://github.com/{{toolRepository}}/{{toolName}}/releases/download/v{{version}}/{{toolName}}-{{version}}-{{platform}}-amd64.tar.gz`
+
+| `smokeTestTemplate`
+| `false`
+| `n/a`
+| In case you want to run a smoke test to validate that your tool was installed properly.
+This only supports `{{toolName}}` as a template literal (for now).
+
+|===
+
+[NOTE]
+====
+The following `templateLiterals` are currently supported within the `urlTemplate`:
+
+* `{{toolRepository}}` - only available if you set `toolRepository` in the parameters (throws an error if you use it, and it was not configured).
+* `{{toolName}}` - gets populated with the `toolName`
+* `{{version}}` - gets populated with the `toolVersion`
+* `{{platform}}` - gets populated with the _Node.js_ `process.platform` value (except `win32` which gets translated to `windows`)
+====
+
+[#usage]
+== Usage
+
+.demo.yml
+[source,yaml]
+----
+on:
+  # ...
+
+jobs:
+  demo:
+    runs-on: ubuntu-latest
+    steps:
+      - name: "Install gino-keva"
+        uses: k3rnels-actions/setup-tool-binary@v1
+        with:
+          toolName: 'gino-keva'
+          toolRepository: 'philips-software'
+          toolVersion: '2.0.0'
+          urlTemplate: 'https://github.com/{{toolRepository}}/{{toolName}}/releases/download/v{{toolVersion}}/{{toolName}}'
+          smokeTestTemplate: '{{toolName}} --help'
+      - name: "Checkout Repo"
+        uses: actions/checkout@v3
+      # ...
+----
+
+[#contribute]
+== Contribute
+
+All kinds of contributions are more than welcome! However, if you plan bigger changes please open an issue first to discuss your proposed changes :wink:
+
+[#licence]
+== Licence
+
+image::https://www.gnu.org/graphics/gplv3-or-later.svg[link="https://opensource.org/licenses/GPL-3.0"]
+
+Just if the badge from `shields.io` and the link:LICENSE[] file do not make it obvious enough, this project is licenced under the link:https://opensource.org/licenses/GPL-3.0[GPLv3] or later.
