@@ -3,7 +3,7 @@ on: # rebuild any PRs and main branch changes
   pull_request:
   push:
     branches:
-      - main
+      - 'main'
       - 'releases/*'
   workflow_dispatch:
 
@@ -11,47 +11,47 @@ jobs:
   build: # make sure build/ci work properly
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout repository
+      - name: 'Checkout repository'
         uses: actions/checkout@v3.2.0
 
-      - name: Setup Node.js
+      - name: 'Setup Node.js'
         uses: actions/setup-node@v3.5.1
         with:
-          node-version: 16.x
+          node-version: '16.x'
           cache: 'npm'
 
-      - name: Install dependencies
+      - name: 'Install dependencies'
         run: npm install
 
-      - name: Run all NPM targets
+      - name: 'Run all NPM targets'
         run: npm run all
 
   testSingleFileTool: # make sure the action works on a clean machine without building
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout repository
+      - name: 'Checkout repository'
         uses: actions/checkout@v3.2.0
 
-      - name: Execute test run
+      - name: 'Execute test run'
         uses: ./
         with:
-          toolName: gino-keva
-          toolRepository: philips-software
-          toolVersion: 2.0.0
-          urlTemplate: https://github.com/{{toolRepository}}/{{toolName}}/releases/download/v{{toolVersion}}/{{toolName}}
-          smokeTestTemplate: {{toolName}} --help
+          toolName: 'gino-keva'
+          toolRepository: 'philips-software'
+          toolVersion: '2.0.0'
+          urlTemplate: 'https://github.com/{{toolRepository}}/{{toolName}}/releases/download/v{{toolVersion}}/{{toolName}}'
+          smokeTestTemplate: '{{toolName}} --help'
 
   testCompressedTool: # make sure the action works on a clean machine without building
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout repository
+      - name: 'Checkout repository'
         uses: actions/checkout@v3.2.0
 
-      - name: Execute test run
+      - name: 'Execute test run'
         uses: ./
         with:
-          toolName: trivy
-          toolRepository: aquasecurity
-          toolVersion: 0.36.0
-          urlTemplate: https://github.com/{{toolRepository}}/{{toolName}}/releases/download/v{{toolVersion}}/{{toolName}}_{{toolVersion}}_{{platform}}-64bit.tar.gz
-          smokeTestTemplate: {{toolName}} --help
+          toolName: 'trivy'
+          toolRepository: 'aquasecurity'
+          toolVersion: '0.36.0'
+          urlTemplate: 'https://github.com/{{toolRepository}}/{{toolName}}/releases/download/v{{toolVersion}}/{{toolName}}_{{toolVersion}}_{{platform}}-64bit.tar.gz'
+          smokeTestTemplate: '{{toolName}} --help'
