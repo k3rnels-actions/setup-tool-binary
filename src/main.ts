@@ -8,7 +8,7 @@ async function run(): Promise<void> {
     const toolInstaller = new Installer()
 
     core.startGroup('Inputs Config')
-    core.info(inputConfig.toString())
+    core.info(JSON.stringify(inputConfig, null, 2))
     core.endGroup()
 
     core.startGroup('Install Tool')

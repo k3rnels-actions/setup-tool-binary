@@ -31,14 +31,4 @@ export class Input {
     )
     this.smokeTest = applyTemplate(smokeTestTemplate, 'toolName', this.toolName)
   }
-
-  toString(): string {
-    return `{
-      toolName: ${this.toolName}
-      toolRepository: ${this.toolRepository}
-      toolVersion: ${this.toolVersion}
-      downloadUrl: ${this.downloadUrl}
-      smokeTest: ${this.smokeTest}
-    }`
-  }
 }

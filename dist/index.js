@@ -51,15 +51,6 @@ class Input {
         ]));
         this.smokeTest = (0, utils_1.applyTemplate)(smokeTestTemplate, 'toolName', this.toolName);
     }
-    toString() {
-        return `{
-      toolName: ${this.toolName}
-      toolRepository: ${this.toolRepository}
-      toolVersion: ${this.toolVersion}
-      downloadUrl: ${this.downloadUrl}
-      smokeTest: ${this.smokeTest}
-    }`;
-    }
 }
 exports.Input = Input;
 
@@ -226,7 +217,7 @@ async function run() {
         const inputConfig = new inputs_1.Input();
         const toolInstaller = new installer_1.Installer();
         core.startGroup('Inputs Config');
-        core.info(inputConfig.toString());
+        core.info(JSON.stringify(inputConfig, null, 2));
         core.endGroup();
         core.startGroup('Install Tool');
         await toolInstaller.install(inputConfig.downloadUrl, inputConfig.toolName, inputConfig.toolVersion);
