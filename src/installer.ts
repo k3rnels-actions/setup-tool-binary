@@ -51,7 +51,7 @@ export class Installer {
         return path.join(`${process.env['PROGRAMFILES']}`, toolName, toolVersion)
       case 'linux':
       case 'freebsd':
-        return `/usr/share/${toolName}/${toolVersion}`;
+        return `/usr/share/${toolName}/${toolVersion}`
       case 'darwin':
         return path.join(`${process.env['HOME']}`, `.${toolName}`, toolVersion)
       default:
