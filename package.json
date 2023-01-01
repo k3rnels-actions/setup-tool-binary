@@ -1,8 +1,8 @@
 {
-  "name": "action-template",
-  "version": "0.0.0",
+  "name": "setup-tool-binary",
+  "version": "1.0.0",
   "private": true,
-  "description": "A GitHub TypeScript Action template",
+  "description": "A basic GitHub Action to install an arbitrary tool binary into $PATH for use within a workflow.",
   "main": "lib/main.js",
   "scripts": {
     "prepare": "husky install",
@@ -26,10 +26,13 @@
     "node",
     "setup"
   ],
-  "author": "",
+  "author": "k3rnelpan1c",
   "license": "GPL-3.0",
   "dependencies": {
-    "@actions/core": "1.10.0"
+    "@actions/core": "1.10.0",
+    "@actions/exec": "1.1.1",
+    "@actions/io": "1.1.2",
+    "@actions/tool-cache": "2.0.1"
   },
   "devDependencies": {
     "@types/node": "16.18.11",
@@ -38,11 +41,11 @@
     "eslint": "8.31.0",
     "eslint-plugin-github": "4.6.0",
     "eslint-plugin-jest": "27.1.7",
+    "husky": "8.0.2",
     "jest": "29.3.1",
     "js-yaml": "4.1.0",
     "prettier": "2.8.1",
     "ts-jest": "29.0.3",
-    "typescript": "4.9.4",
-    "husky": "8.0.2"
+    "typescript": "4.9.4"
   }
 }

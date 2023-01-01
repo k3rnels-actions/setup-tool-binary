@@ -1,16 +1,27 @@
 import * as core from '@actions/core'
-import {wait} from './wait'
+import {Input} from './inputs'
+import {Installer} from './installer'
 
 async function run(): Promise<void> {
   try {
-    const ms: string = core.getInput('milliseconds')
-    core.debug(`Waiting ${ms} milliseconds ...`) // debug is only output if you set the secret `ACTIONS_STEP_DEBUG` to true
+    const inputConfig = new Input()
+    const toolInstaller = new Installer()
 
-    core.debug(new Date().toTimeString())
-    await wait(parseInt(ms, 10))
-    core.debug(new Date().toTimeString())
+    core.startGroup('Inputs Config')
+    core.info(inputConfig.toString())
+    core.endGroup()
 
-    core.setOutput('time', new Date().toTimeString())
+    core.startGroup('Install Tool')
+    await toolInstaller.install(inputConfig.downloadUrl, inputConfig.toolName, inputConfig.toolVersion)
+    core.endGroup()
+
+    core.startGroup('Run Smoke Test')
+    if (inputConfig.smokeTest) {
+      await toolInstaller.runSmokeTest(inputConfig.smokeTest)
+    } else {
+      core.info('No smoke test configured.')
+    }
+    core.endGroup()
   } catch (error) {
     if (error instanceof Error) core.setFailed(error.message)
   }

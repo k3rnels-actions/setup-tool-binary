@@ -26,7 +26,7 @@ jobs:
       - name: Run all NPM targets
         run: npm run all
 
-  test: # make sure the action works on a clean machine without building
+  testSingleFileTool: # make sure the action works on a clean machine without building
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
@@ -35,4 +35,23 @@ jobs:
       - name: Execute test run
         uses: ./
         with:
-          milliseconds: 1000
+          toolName: gino-keva
+          toolRepository: philips-software
+          toolVersion: 2.0.0
+          urlTemplate: https://github.com/{{toolRepository}}/{{toolName}}/releases/download/v{{toolVersion}}/{{toolName}}
+          smokeTestTemplate: {{toolName}} --help
+
+  testCompressedTool: # make sure the action works on a clean machine without building
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3.2.0
+
+      - name: Execute test run
+        uses: ./
+        with:
+          toolName: trivy
+          toolRepository: aquasecurity
+          toolVersion: 0.36.0
+          urlTemplate: https://github.com/{{toolRepository}}/{{toolName}}/releases/download/v{{toolVersion}}/{{toolName}}_{{toolVersion}}_{{platform}}-64bit.tar.gz
+          smokeTestTemplate: {{toolName}} --help

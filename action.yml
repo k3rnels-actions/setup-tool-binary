@@ -1,11 +1,26 @@
-name: 'Your name here'
-description: 'Provide a description here'
-author: 'Your name or organization here'
+name: 'setup-tool-binary'
+description: 'A basic GitHub Action to install an arbitrary tool binary into $PATH for use within a workflow.'
+author: 'k3rnel-pan1c'
+branding:
+  icon: 'play-circle'
+  color: 'green'
 inputs:
-  milliseconds: # change this
+  toolName:
     required: true
-    description: 'input description here'
-    default: 'default value if applicable'
+    description: 'The name of the tool you want to install via this action.'
+  toolRepository:
+    required: false
+    description: 'Conditionally required if you to use the "toolRepository" templateLiteral within the urlTemplate.'
+  toolVersion:
+    required: true
+    description: 'The version of the tool you want to install.'
+  urlTemplate:
+    required: true
+    description: 'The URL template to download your tool of choice from.'
+    default: 'https://github.com/{{toolRepository}}/{{toolName}}/releases/download/v{{version}}/{{toolName}}-{{version}}-{{platform}}-amd64.tar.gz'
+  smokeTestTemplate:
+    required: false
+    description: 'In case you want to run a smoke test to validate that your tool was installed properly.'
 runs:
   using: 'node16'
   main: 'dist/index.js'
