@@ -12,10 +12,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: 'Checkout repository'
-        uses: actions/checkout@v3.2.0
+        uses: actions/checkout@v3.3.0
 
       - name: 'Setup Node.js'
-        uses: actions/setup-node@v3.5.1
+        uses: actions/setup-node@v3.6.0
         with:
           node-version: '16.x'
           cache: 'npm'
@@ -30,7 +30,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: 'Checkout repository'
-        uses: actions/checkout@v3.2.0
+        uses: actions/checkout@v3.3.0
 
       - name: 'Execute test run'
         uses: ./
@@ -45,7 +45,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: 'Checkout repository'
-        uses: actions/checkout@v3.2.0
+        uses: actions/checkout@v3.3.0
 
       - name: 'Execute test run'
         uses: ./
