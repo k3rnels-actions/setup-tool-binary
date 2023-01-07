@@ -3,7 +3,11 @@
     "config:base",
     ":prHourlyLimitNone",
     ":prConcurrentLimit20",
-    ":timezone(Etc/UTC)"
+    ":timezone(Etc/UTC)",
+    ":enableVulnerabilityAlertsWithLabel(security)",
+    "group:monorepos",
+    "group:testNonMajor",
+    "helpers:pinGitHubActionDigests"
   ],
   "labels": ["dependencies"],
   "npm": {
@@ -36,6 +40,11 @@
       "description": "Group regular NPM dependency PRs",
       "matchDepTypes": ["dependencies"],
       "groupName": "dependencies"
+    },
+    {
+      "description": "Ignore the engines block of package.json",
+      "matchDepTypes": ["engines"],
+      "enabled": false
     },
     {
       "description": "Disable major bump PRs for the 'node' dependencies",
