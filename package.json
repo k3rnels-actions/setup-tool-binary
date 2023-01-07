@@ -19,7 +19,8 @@
     "url": "git+https://github.com/k3rnels-actions/action-template.git"
   },
   "engines": {
-    "node": "^16.16.0"
+    "node": "^16.18.0",
+    "npm": "^8.19.2"
   },
   "keywords": [
     "actions",
